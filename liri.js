@@ -28,26 +28,28 @@ client.get('statuses/user_timeline', params, function (error, tweets, response) 
 });
 
 // LASTFM//
-// I couldn't find a waw to get the song's info. I tried with  ARTIST GET INFO, but I'm having a hard time diging into the JSON Obj. :(
+
 var lastfm = new lastFmNode(keys.lastfmKeys);
 
 
-var artistName = process.argv[3];
+var song = process.argv[3];
 
 var musicFm = function () {
 
-lastfm.request("artist.getInfo", { artist: artistName, handlers: {
+lastfm.request("track.search", { track: song, handlers: {
         success: function (json) {
             
-        if (process.argv[2] == "test") {
-          var myJson = JSON.stringify(json, null, 2);
-        //   console.log(myJson + " OK" )
+        if (process.argv[2] == "spotify-this-song") {
+          //var myJson = JSON.stringify(json, null, 2);
+      
+        var myJson = json
           var artists = myJson;
-          for (var i = 0; i < artists.length; i++) {
+            //   console.log(JSON.stringify(json, null, 2) + " LOL" )
+         // for (var i = 0; i < artists.length; i++) {
               
-              console.log(artists[i].artist.name + "this is the name- is not working")
+              console.log(myJson.results.trackmatches.track[0].name)
               
-          }
+          //}
 
         }
 
@@ -67,19 +69,5 @@ musicFm()
 
 
 
-
-//         }
-
-// var request = lastfm.info("artist.getInfo", {
-//     artist: "The strokes",
-//     handlers: {
-//         success: function(data) {
-//             console.log("Success: " + data);
-//         },
-//         error: function(error) {
-//             console.log("Error: " + error.message);
-//         }
-//     }
-// });
 
 
