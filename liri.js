@@ -27,15 +27,18 @@ client.get('statuses/user_timeline', params, function (error, tweets, response) 
 
 });
 
+
+if(process.argv[2] == 'movie-this'){
+    movie(process.argv[3]);
+} else if (process.argv[2] == 'spotify-this-song'){
+    musicFm(process.argv[3]);
+}
+
 // LASTFM//
 
+
+function musicFm(song) {
 var lastfm = new lastFmNode(keys.lastfmKeys);
-
-
-var song = process.argv[3];
-
-var musicFm = function () {
-
     lastfm.request("track.search", {
         track: song, handlers: {
             success: function (json) {
@@ -46,15 +49,15 @@ var musicFm = function () {
                     // var myJson = json
                     //   var artists = myJson;
                     //   console.log(JSON.stringify(json, null, 2) + " LOL" )
-                    // for (var i = 0; i < artists.length; i++) {
+                    for (var i = 0; i < json.results.trackmatches.track.length; i++) {
                     //   console.log(JSON.stringify(json, null, 2));
-                    console.log("Name: " + json.results.trackmatches.track[0].name)
+                    console.log("Name: " + json.results.trackmatches.track[i].name)
                     console.log("----------------------")
-                    console.log("Artist: " + json.results.trackmatches.track[0].artist)
+                    console.log("Artist: " + json.results.trackmatches.track[i].artist)
                     console.log("----------------------")
-                    console.log("Link: " + json.results.trackmatches.track[0].url)
+                    console.log("Link: " + json.results.trackmatches.track[i].url)
 
-                    //}
+                    }
 
                 }
 
@@ -67,14 +70,11 @@ var musicFm = function () {
         }
     });
 }
-musicFm()
 
 //MOVIE THIS//
 
 
-var movie = function () {
- process.argv[2]= "movie-this"
-var movieName = process.argv[3]
+function movie(movieName) {
     
     
     request('http://www.omdbapi.com/?t=' +movieName + '&y=&plot=short&apikey=40e9cece', function (error, response, body) {
@@ -97,7 +97,6 @@ var movieName = process.argv[3]
     })
 
 };
-movie();
 
 
 
